@@ -20,6 +20,7 @@ const server = createServer({
       }),
       handler: async (input) => {
         const { method, url, headers, body } = input ?? {};
+
         const init = {
           method: method || "POST",
           headers: headers || {}
@@ -31,10 +32,13 @@ const server = createServer({
             ...(headers || {})
           };
         }
+
         const resp = await fetch(url, init);
         const text = await resp.text();
+
         const allHeaders = {};
         resp.headers.forEach((v, k) => (allHeaders[k] = v));
+
         return {
           content: [
             {
