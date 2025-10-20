@@ -1,10 +1,10 @@
 export const config = { runtime: "edge" };
 
-import { createServer } from "@modelcontextprotocol/sdk/server";
+import { Server } from "@modelcontextprotocol/sdk/server";
 import { z } from "zod";
 
-// MCP server with one tool: http_request (uses Edge fetch)
-const server = createServer({
+// Instantiate MCP server
+const server = new Server({
   name: "crisp-http-bridge",
   version: "1.0.0",
   tools: [
@@ -56,6 +56,7 @@ const server = createServer({
   ]
 });
 
+// Edge entrypoint: hand off to MCP server’s HTTP handler
 export default async function handler(req) {
   return server.handleHTTP(req);
 }
