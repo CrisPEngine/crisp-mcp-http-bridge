@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/mcp.ts": { "runtime": "edge" }
+  },
+  "routes": [
+    { "src": "/mcp", "dest": "/api/mcp.ts" }
+  ]
+}
