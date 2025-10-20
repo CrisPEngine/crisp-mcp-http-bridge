@@ -1,5 +1,5 @@
 import { createServer } from "@modelcontextprotocol/sdk/server";
-import { z } from "@modelcontextprotocol/sdk/types";
+import { z } from "zod";
 import { fetch } from "undici";
 
 // Run as a Vercel Edge Function

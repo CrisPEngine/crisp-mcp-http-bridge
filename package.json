@@ -4,15 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "esbuild api/mcp.ts --bundle --platform=neutral --format=esm --outfile=dist/api/mcp.mjs",
+    "build": "echo 'No build needed for Edge function'",
     "start": "vercel dev"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.1.0",
-    "undici": "^6.19.8"
-  },
-  "devDependencies": {
-    "esbuild": "^0.23.0",
-    "typescript": "^5.6.3"
+    "@modelcontextprotocol/sdk": "^1.20.1",
+    "undici": "^6.22.0",
+    "zod": "^3.25.76"
   }
 }
