@@ -56,7 +56,6 @@ const server = new Server({
   ]
 });
 
-// Edge entrypoint: hand off to MCP server’s HTTP handler
 export default async function handler(req) {
   return server.handleHTTP(req);
 }
