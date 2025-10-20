@@ -1,10 +1,11 @@
 export const config = { runtime: "edge" };
 
-import { Server } from "@modelcontextprotocol/sdk/server";
+// Avoid named export pitfalls by using a wildcard import.
+import * as mcp from "@modelcontextprotocol/sdk/server";
 import { z } from "zod";
 
 // Instantiate MCP server
-const server = new Server({
+const server = new mcp.Server({
   name: "crisp-http-bridge",
   version: "1.0.0",
   tools: [
@@ -56,6 +57,7 @@ const server = new Server({
   ]
 });
 
+// Edge entrypoint
 export default async function handler(req) {
   return server.handleHTTP(req);
 }
