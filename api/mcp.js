@@ -1,10 +1,9 @@
+export const config = { runtime: "edge" };
+
 import { createServer } from "@modelcontextprotocol/sdk/server";
 import { z } from "zod";
 
-// Edge runtime
-export const config = { runtime: "edge" };
-
-// MCP server with one tool: http_request
+// MCP server with one tool: http_request (uses Edge fetch)
 const server = createServer({
   name: "crisp-http-bridge",
   version: "1.0.0",
@@ -19,32 +18,23 @@ const server = createServer({
         headers: z.record(z.string()).optional(),
         body: z.unknown().optional()
       }),
-      handler: async (input: unknown) => {
-        const { method, url, headers, body } = input as {
-          method?: string;
-          url: string;
-          headers?: Record<string, string>;
-          body?: unknown;
-        };
-
-        const init: RequestInit = {
+      handler: async (input) => {
+        const { method, url, headers, body } = input ?? {};
+        const init = {
           method: method || "POST",
-          headers: headers ?? {}
+          headers: headers || {}
         };
         if (body !== undefined) {
           init.body = JSON.stringify(body);
-          (init.headers as Record<string, string>) = {
+          init.headers = {
             "Content-Type": "application/json",
-            ...(headers ?? {})
+            ...(headers || {})
           };
         }
-
         const resp = await fetch(url, init);
         const text = await resp.text();
-
-        const allHeaders: Record<string, string> = {};
+        const allHeaders = {};
         resp.headers.forEach((v, k) => (allHeaders[k] = v));
-
         return {
           content: [
             {
@@ -62,7 +52,6 @@ const server = createServer({
   ]
 });
 
-// Edge entrypoint
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req) {
   return server.handleHTTP(req);
 }
